@@ -1,6 +1,6 @@
 import config from "./../configs/config";
 
-module.exports = {
+const knexConfig = {
   client: "pg",
   connection: {
     host: config.DB_HOST,
@@ -14,3 +14,5 @@ module.exports = {
     extension: "ts",
   },
 };
+
+export default knexConfig;

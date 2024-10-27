@@ -4,12 +4,12 @@ export async function up(knex: Knex): Promise<void> {
   await knex.raw(`
     CREATE TABLE temperatures (
       id SERIAL PRIMARY KEY,
-      temperature NUMERIC NOT NULL,
-      timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-    )
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      value FLOAT NOT NULL
+    );
   `);
 }
 
 export async function down(knex: Knex): Promise<void> {
-  await knex.raw(`DROP TABLE temperatures`);
+  await knex.raw(`DROP TABLE IF EXISTS temperatures`);
 }
