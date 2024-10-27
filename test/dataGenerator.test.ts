@@ -1,4 +1,4 @@
-import { generateDummyTemperature } from "@/services/temperatureService";
+import { generateDummyTemperature } from "./../src/services/temperatureService";
 
 describe("Mock Data Generation", () => {
   it("should generate valid mock data with correct timestamp format", () => {

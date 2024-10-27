@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "@/app"; // Assuming the Express app is exported from app.ts
+import app from "../src/app";
 import knex from "knex";
 import knexConfig from "../src/db/knexfile";
 import { Knex } from "knex";
