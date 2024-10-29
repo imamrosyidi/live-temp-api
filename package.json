@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/imamrosyidi/live-temp-api#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "cron": "^3.1.7",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",

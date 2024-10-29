@@ -3,8 +3,15 @@ import swaggerUi from "swagger-ui-express";
 import temperatureRoutes from "@/routes/temperatureRoutes";
 import swaggerSpecs from "@/configs/swagger";
 import os from "os";
+import cors from "cors";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.use(express.json());
 app.use("/api", temperatureRoutes);
