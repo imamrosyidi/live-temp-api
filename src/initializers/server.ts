@@ -1,4 +1,3 @@
-// src/initializers/server.ts
 import http from "http";
 import app from "@/app/app";
 import { config } from "@/configs/config";
