@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Temperature } from "../models/temperatureModel";
-import { generateDummyTemperature } from "../services/temperatureService";
-import { getTemperaturesByTimeRange } from "../repositories/temperatureRepositories";
+import { Temperature } from "../models/temperature.model";
+import { generateDummyTemperature } from "../services/temperature.service";
+import { getTemperaturesByTimeRange } from "../repository/temperature.repository";
 
 export const createDummyTemperature = async () => {
   const temperature = generateDummyTemperature();

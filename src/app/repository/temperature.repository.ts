@@ -1,5 +1,5 @@
 import db from "@/configs/database";
-import { Temperature } from "../models/temperatureModel";
+import { Temperature } from "@/app/models/temperature.model";
 
 export const insertTemperature = async (
   temperature: Temperature

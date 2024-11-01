@@ -1,7 +1,8 @@
 import { CronJob } from "cron";
-import { io } from "@/server";
-import { createDummyTemperature } from "@/controllers/temperatureController";
-import { insertTemperature } from "@/repositories/temperatureRepositories";
+
+import { createDummyTemperature } from "@/app/controllers/temperature.controller";
+import { insertTemperature } from "@/app/repository/temperature.repository";
+import { io } from "@/initializers/socket";
 
 export const temperatureJob = new CronJob("*/5 * * * * *", async () => {
   const temperatureData = await createDummyTemperature();
