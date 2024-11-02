@@ -1,39 +1,37 @@
 import db from "@/configs/database";
 import { Temperature } from "@/app/models/temperature.model";
 
-export const insertTemperature = async (
-  temperature: Temperature
-): Promise<void> => {
-  const { value, created_at } = temperature;
+export const TemperatureRepository = {
+  async addTemperature(temperature: Temperature) {
+    try {
+      const { value, created_at } = temperature;
+      await db.query(
+        "INSERT INTO temperatures (value, created_at) VALUES ($1, $2)",
+        [value, created_at]
+      );
+    } catch (error) {
+      console.error("Error inserting temperature:", error.message);
+      throw new Error("Failed to insert temperature record");
+    }
+  },
 
-  try {
-    await db.query(
-      "INSERT INTO temperatures (value, created_at) VALUES ($1, $2)",
-      [value, created_at]
-    );
-  } catch (error) {
-    console.error("Error inserting temperature:", error);
-    throw new Error("Failed to insert temperature record");
-  }
-};
+  async getTemperaturesInRange(hours: number): Promise<Temperature[]> {
+    try {
+      const cutoff = new Date(
+        Date.now() - hours * 60 * 60 * 1000
+      ).toISOString();
 
-export const getTemperaturesByTimeRange = async (
-  start?: string,
-  end?: string
-): Promise<Temperature[]> => {
-  const now = new Date();
+      const rows = await db.query(
+        ` SELECT value, created_at FROM temperatures
+          WHERE created_at >= $1
+          ORDER BY created_at DESC`,
+        [cutoff]
+      );
 
-  const query = start
-    ? `SELECT * FROM temperatures WHERE created_at BETWEEN $1 AND $2 ORDER BY created_at ASC`
-    : `SELECT * FROM temperatures WHERE created_at >= NOW() - INTERVAL '24 hours' ORDER BY created_at ASC LIMIT 100`;
-
-  const values = start ? [start, end || now] : [];
-
-  try {
-    const rows = await db.query(query, values);
-    return rows as Temperature[];
-  } catch (error) {
-    console.error("Error retrieving temperatures:", error);
-    throw new Error("Failed to retrieve temperatures");
-  }
+      return rows;
+    } catch (error) {
+      console.error("Error fetch temperature:", error.message);
+      throw new Error("Failed to fetch temperature record");
+    }
+  },
 };

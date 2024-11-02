@@ -1,22 +1,18 @@
 import { Request, Response } from "express";
-import { Temperature } from "../models/temperature.model";
-import { generateDummyTemperature } from "../services/temperature.service";
-import { getTemperaturesByTimeRange } from "../repository/temperature.repository";
+import temperatureService from "../services/temperature.service";
 
-export const createDummyTemperature = async () => {
-  const temperature = generateDummyTemperature();
-  return temperature;
-};
-
-export const getTemperatureByTimeRange = async (
-  req: Request,
-  res: Response
-) => {
+export const getTemperatures = async (req: Request, res: Response) => {
   try {
-    const { start, end } = req.query;
-    const temperatures = await getTemperaturesByTimeRange();
+    const hours =
+      req.query.hours !== undefined ? parseInt(req.query.hours as string) : 1;
 
-    res.json({ data: temperatures });
+    if (isNaN(hours) || hours < 1 || hours > 6) {
+      res
+        .status(400)
+        .json({ message: "Hours must be a number between 1 and 6." });
+    }
+    const data = await temperatureService.getTemperaturesInRange(hours);
+    res.json({ data });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });

@@ -1,8 +1,8 @@
 import express from "express";
-import { getTemperatureByTimeRange } from "@/app/controllers/temperature.controller";
+import { getTemperatures } from "../controllers/temperature.controller";
 
 const router = express.Router();
 
-router.get("/temperature", getTemperatureByTimeRange);
+router.get("/temperatures", getTemperatures);
 
 export default router;
