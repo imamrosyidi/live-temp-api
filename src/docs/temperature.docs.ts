@@ -20,6 +20,8 @@
  *   get:
  *     summary: Retrieve a list of temperature records
  *     description: Retrieves temperature records for the past 1 to 6 hours. Defaults to 1 hour if not specified.
+ *     tags:
+ *       - Temperature
  *     parameters:
  *       - in: query
  *         name: hours
