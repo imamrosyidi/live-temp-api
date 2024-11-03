@@ -7,7 +7,7 @@
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "start": "node dist/index.js",
     "dev": "nodemon -r tsconfig-paths/register src/index.ts",
-    "test": "jest --forceExit --detectOpenHandles",
+    "test": "jest --forceExit",
     "migrate": "knex migrate:latest --knexfile src/db/knexfile.ts",
     "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.ts",
     "migrate:make": "knex migrate:make --knexfile src/db/knexfile.ts"
