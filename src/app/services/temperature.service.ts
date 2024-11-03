@@ -14,8 +14,8 @@ class TemperatureService {
     return temperature;
   }
 
-  async getTemperaturesInRange(hours: number): Promise<Temperature[]> {
-    return TemperatureRepository.getTemperaturesInRange(hours);
+  async getTemperaturesInRange(munites: number): Promise<Temperature[]> {
+    return TemperatureRepository.getTemperaturesInRange(munites);
   }
 }
 

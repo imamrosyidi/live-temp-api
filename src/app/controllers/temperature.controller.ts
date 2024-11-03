@@ -3,15 +3,17 @@ import temperatureService from "../services/temperature.service";
 
 export const getTemperatures = async (req: Request, res: Response) => {
   try {
-    const hours =
-      req.query.hours !== undefined ? parseInt(req.query.hours as string) : 1;
+    const munites =
+      req.query.munites !== undefined
+        ? parseInt(req.query.munites as string)
+        : 5;
 
-    if (isNaN(hours) || hours < 1 || hours > 6) {
+    if (isNaN(munites) || munites <= 1 || munites > 60) {
       res
         .status(400)
-        .json({ message: "Hours must be a number between 1 and 6." });
+        .json({ message: "Minutes must be a number between 1 and 60" });
     }
-    const data = await temperatureService.getTemperaturesInRange(hours);
+    const data = await temperatureService.getTemperaturesInRange(munites);
     res.json({ data });
   } catch (error) {
     console.error(error);

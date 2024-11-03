@@ -15,11 +15,9 @@ export const TemperatureRepository = {
     }
   },
 
-  async getTemperaturesInRange(hours: number): Promise<Temperature[]> {
+  async getTemperaturesInRange(munites: number): Promise<Temperature[]> {
     try {
-      const cutoff = new Date(
-        Date.now() - hours * 60 * 60 * 1000
-      ).toISOString();
+      const cutoff = new Date(Date.now() - munites * 60 * 1000).toISOString();
 
       const rows = await db.query(
         ` SELECT value, created_at FROM temperatures
