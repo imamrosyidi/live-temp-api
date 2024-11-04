@@ -3,6 +3,7 @@
 This project is a temperature monitoring API built with TypeScript and Express, featuring real-time data updates and clean, well-structured code. 
 - **API Documentation**: [https://temp-api.rosyidi.work/api-docs](https://temp-api.rosyidi.work/api-docs)
 - **API Endpoint**: [https://temp-api.rosyidi.work/api/temperatures](https://temp-api.rosyidi.work/api/temperatures)
+- **Web Dashboard**: [https://live-temp-dashboard.vercel.app](https://live-temp-dashboard.vercel.app)
 
 ## Table of Contents
 
