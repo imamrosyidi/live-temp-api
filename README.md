@@ -1,6 +1,8 @@
 # Live Temperature API
 
-This project is a temperature monitoring API built with TypeScript and Express, featuring real-time data updates and clean, well-structured code. The service is deployed [here](https://temp-api.rosyidi.work), with full API documentation available [here](https://temp-api.rosyidi.work/api-docs).
+This project is a temperature monitoring API built with TypeScript and Express, featuring real-time data updates and clean, well-structured code. 
+- **API Documentation**: [https://temp-api.rosyidi.work/api-docs](https://temp-api.rosyidi.work/api-docs)
+- **API Endpoint**: [https://temp-api.rosyidi.work/api/temperatures](https://temp-api.rosyidi.work/api/temperatures)
 
 ## Table of Contents
 
