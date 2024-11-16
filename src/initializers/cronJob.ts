@@ -1,5 +1,8 @@
-import { temperatureJob } from "@/jobs/temperature.job";
+import { cronJobs } from "@/jobs";
 
 export const startCronJobs = () => {
-  temperatureJob.start();
+  cronJobs.forEach(({ name, job }) => {
+    job.start();
+    console.info(`Cron job started: ${name}`);
+  });
 };
