@@ -2,7 +2,8 @@ name: Test Project
 
 on:
   pull_request:
-    branches: -main
+    branches:
+      - main
 
 jobs:
   test:
@@ -11,6 +12,8 @@ jobs:
       image: node:20
     steps:
       - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 20
       - run: npm ci
