@@ -9,6 +9,11 @@ class Config {
   readonly DB_PORT = process.env.DB_PORT
     ? parseInt(process.env.DB_PORT, 10)
     : 8000;
+  readonly REDIS_HOST = process.env.REDIS_HOST || "redis_host";
+  readonly REDIS_AUTH = process.env.REDIS_AUTH || "redis_auth";
+  readonly REDIS_PORT = process.env.REDIS_PORT
+    ? parseInt(process.env.DB_PORT, 10)
+    : 8000;
 }
 
 const config = new Config();

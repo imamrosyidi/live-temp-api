@@ -1,9 +1,19 @@
 import pgPromise, { IDatabase, IMain } from "pg-promise";
 import config from "@/configs/config";
+import { IConnectionParameters } from "pg-promise/typescript/pg-subset";
 
-const pgp: IMain = pgPromise();
+const pgp: IMain = pgPromise({
+  connect(e) {
+    const { database, host, port } = e.client.connectionParameters;
+    console.log(`Connected to database ${database} at ${host}:${port}`);
+  },
+  disconnect(e) {
+    const { database, host, port } = e.client.connectionParameters;
+    console.log(`Disconnected from database ${database} at ${host}:${port}`);
+  },
+});
 
-const dbConfig = {
+const dbConfig: IConnectionParameters = {
   host: config.DB_HOST,
   port: config.DB_PORT,
   database: config.DB_NAME,
