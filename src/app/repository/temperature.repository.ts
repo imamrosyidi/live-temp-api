@@ -32,4 +32,13 @@ export const TemperatureRepository = {
       throw new Error("Failed to fetch temperature record");
     }
   },
+
+  async truncateTemperature() {
+    try {
+      await db.query("TRUNCATE temperatures RESTART IDENTITY CASCADE");
+    } catch (error) {
+      console.error("Error truncate temperatures:", error.message);
+      throw new Error("Error truncate temperatures");
+    }
+  },
 };

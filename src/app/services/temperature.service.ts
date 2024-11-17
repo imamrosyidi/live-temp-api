@@ -17,6 +17,10 @@ class TemperatureService {
   async getTemperaturesInRange(munites: number): Promise<Temperature[]> {
     return TemperatureRepository.getTemperaturesInRange(munites);
   }
+
+  async truncateTemperatures(): Promise<void> {
+    return TemperatureRepository.truncateTemperature();
+  }
 }
 
 export default new TemperatureService();
