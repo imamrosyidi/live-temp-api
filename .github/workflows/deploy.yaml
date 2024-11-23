@@ -37,11 +37,11 @@ jobs:
 
           # Sync project files to VPS
           rsync -avz --delete \
-            -e "ssh -i private_key -o StrictHostKeyChecking=no" \
+            -e "ssh -i private_key -o StrictHostKeyChecking=no -p 22222" \
             ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_APP_PATH }}
 
           # Run deployment commands on VPS
-          ssh -i private_key -o StrictHostKeyChecking=no \
+          ssh -i private_key -o StrictHostKeyChecking=no -p 22222 \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
               cd ${{ secrets.VPS_APP_PATH }}
               npm ci
