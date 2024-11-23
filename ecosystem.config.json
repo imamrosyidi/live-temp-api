@@ -1,13 +1,16 @@
 {
   "apps": [
     {
-      "name": "realtime temp app",
-      "script": "./dist/index.js",
+      "name": "live-temp-api",
+      "script": "dist/main.js",
       "instances": 1,
       "autorestart": true,
       "watch": false,
       "time": true,
-      "env_file": ".env"
+      "env_file": ".env",
+      "env_production": {
+        "NODE_ENV": "production"
+      }
     }
   ]
 }

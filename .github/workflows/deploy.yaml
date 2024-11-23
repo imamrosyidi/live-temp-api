@@ -1,4 +1,4 @@
-name: Deploy Project
+name: Deploy to VPS
 
 on:
   push:
@@ -8,17 +8,46 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    container:
-      image: node:20
+
     steps:
-      - uses: actions/checkout@v3
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 20
-      - run: npm ci
-      - run: npm run build
-      - name: Get SSH and set permissions
+
+      # Install dependencies and build the project
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      # Deploy to VPS
+      - name: Deploy to VPS
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.VPS_PRIVATE_KEY}}
         run: |
-          mkdir -p ~./ssh
-          echo "${{secret.SSH_PRIVATE_KEY}}" > ~/.shh/id_rsa && chmod ~/.ssh/id_rsa
-      - name: Deploy using SCP
-        run: scp -o StrickHostKeyChecking=no -i ~.ssh/id_rsa -r ./dist/* ${{secret.SSH_USER}}@${{secret.SSH_HOST}}:~/node-app
+          echo "${SSH_PRIVATE_KEY}" > private_key
+          chmod 600 private_key
+
+          # Sync project files to VPS
+          rsync -avz --delete \
+            -e "ssh -i private_key -o StrictHostKeyChecking=no" \
+            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_APP_PATH }}
+
+          # Run deployment commands on VPS
+          ssh -i private_key -o StrictHostKeyChecking=no \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+              cd ${{ secrets.VPS_APP_PATH }}
+              npm ci
+              npm run migrate
+              npm run build
+              pm2 reload ecosystem.config.json --env production
+            EOF
+
+          rm -f private_key
