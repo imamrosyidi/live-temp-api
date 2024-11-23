@@ -44,6 +44,7 @@ jobs:
           ssh -i private_key -o StrictHostKeyChecking=no -p 22222 \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
               cd ${{ secrets.VPS_APP_PATH }}
+              git pull origin main
               npm ci
               npm run migrate
               npm run build
