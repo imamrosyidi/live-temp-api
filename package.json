@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "start": "pm2 start ecosystem.config.js --env production",
+    "deploy": "pm2 reload ecosystem.config.js --env production",
     "dev": "nodemon -r tsconfig-paths/register src/index.ts",
     "test": "jest --forceExit",
     "migrate": "knex migrate:latest --knexfile src/db/knexfile.ts",
