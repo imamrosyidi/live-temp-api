@@ -27,6 +27,15 @@ jobs:
       - name: Build project
         run: npm run build
 
+      # Update ecosystem config with env variables
+      - name: Update ecosystem config
+        run: |
+          sed -i "s/DB_NAME/${{ secrets.DB_NAME }}/g" ecosystem.config.json
+          sed -i "s/DB_USER/${{ secrets.DB_USER }}/g" ecosystem.config.json
+          sed -i "s/DB_PASSWORD/${{ secrets.DB_PASSWORD }}/g" ecosystem.config.json
+          sed -i "s/DB_HOST/${{ secrets.DB_HOST }}/g" ecosystem.config.json
+          sed -i "s/DB_PORT/${{ secrets.DB_PORT }}/g" ecosystem.config.json
+
       # Deploy to VPS
       - name: Deploy to VPS
         env:
