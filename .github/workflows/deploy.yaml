@@ -49,7 +49,8 @@ jobs:
               npm ci
               
               echo "🔄 Running migrations..."
-              npm run migrate
+              # Ensure env vars are loaded before running migrate
+              source .env && npm run migrate
               
               echo "🏗️ Building application..."
               npm run build
