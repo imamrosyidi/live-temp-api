@@ -2,58 +2,68 @@ name: Deploy to VPS
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Create .env file before deploy
-      - name: Create .env file
+      - name: Setup deployment environment
         run: |
+          # Create SSH key
+          echo "${{ secrets.VPS_PRIVATE_KEY }}" > private_key
+          chmod 600 private_key
+
+          # Create environment file with properly quoted values
           cat << EOF > .env
-          DB_NAME=${{ secrets.DB_NAME }}
-          DB_USER=${{ secrets.DB_USER }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          DB_HOST=${{ secrets.DB_HOST }}
+          DB_NAME='${{ secrets.DB_NAME }}'
+          DB_USER='${{ secrets.DB_USER }}'
+          DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
+          DB_HOST='${{ secrets.DB_HOST }}'
           DB_PORT=${{ secrets.DB_PORT }}
           EOF
 
-      # Deploy to VPS
-      - name: Deploy to VPS
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.VPS_PRIVATE_KEY}}
+      - name: Sync files to VPS
         run: |
-          echo "${SSH_PRIVATE_KEY}" > private_key
-          chmod 600 private_key
-
-          # Sync project files to VPS
+          # Sync excluding unnecessary files
           rsync -avz --delete \
             --exclude 'node_modules' \
+            --exclude '.git' \
+            --exclude 'tests' \
+            --exclude '.github' \
             -e "ssh -i private_key -o StrictHostKeyChecking=no -p 22222" \
             ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_APP_PATH }}
 
-          # Run deployment commands on VPS
+      - name: Deploy application
+        run: |
           ssh -i private_key -o StrictHostKeyChecking=no -p 22222 \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+              set -e # Exit on error
+              
+              echo "📦 Installing dependencies..."
               cd ${{ secrets.VPS_APP_PATH }}
-              git pull origin main
               npm ci
+              
+              echo "🔄 Running migrations..."
               npm run migrate
+              
+              echo "🏗️ Building application..."
               npm run build
-              # First deployment - use start if PM2 process doesn't exist
-              pm2 describe live-temp-api > /dev/null
-              if [ $? -eq 0 ]; then
+              
+              echo "🚀 Starting application..."
+              if pm2 describe live-temp-api > /dev/null; then
                 npm run deploy
+                echo "✅ Application restarted successfully"
               else
                 npm run start
+                echo "✅ Application started successfully"
               fi
             EOF
 
-          rm -f private_key
+      - name: Cleanup
+        if: always()
+        run: rm -f private_key
