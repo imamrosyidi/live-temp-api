@@ -42,31 +42,31 @@ jobs:
         run: |
           ssh -i private_key -o StrictHostKeyChecking=no -p 22222 \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            set -e # Exit on error
-            
-            echo "📦 Installing dependencies..."
-            cd ${{ secrets.VPS_APP_PATH }}
-            npm ci
-            
-            echo "🔄 Running migrations..."
-            export NODE_ENV=production
-            source .env
-            echo "Current working directory: $(pwd)"
-            echo "Environment check: DB_HOST=${DB_HOST}"
-            npm run migrate
-            
-            echo "🏗️ Building application..."
-            npm run build
-            
-            echo "🚀 Starting application..."
-            if pm2 describe live-temp-api > /dev/null; then
-              npm run deploy
-              echo "✅ Application restarted successfully"
-            else
-              npm run start
-              echo "✅ Application started successfully"
-            fi
-EOF
+              set -e # Exit on error
+              
+              echo "📦 Installing dependencies..."
+              cd ${{ secrets.VPS_APP_PATH }}
+              npm ci
+              
+              echo "🔄 Running migrations..."
+              export NODE_ENV=production
+              source .env
+              echo "Current working directory: $(pwd)"
+              echo "Environment check: DB_HOST=${DB_HOST}"
+              npm run migrate
+              
+              echo "🏗️ Building application..."
+              npm run build
+              
+              echo "🚀 Starting application..."
+              if pm2 describe live-temp-api > /dev/null; then
+                npm run deploy
+                echo "✅ Application restarted successfully"
+              else
+                npm run start
+                echo "✅ Application started successfully"
+              fi
+            EOF
 
       - name: Cleanup
         if: always()
