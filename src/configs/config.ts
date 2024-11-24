@@ -1,4 +1,17 @@
 import "dotenv/config";
+import path from "path";
+import dotenv from "dotenv";
+
+// Load .env from project root
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+
+// Add debug logging
+console.log("Environment Loading:", {
+  current_dir: __dirname,
+  env_path: path.resolve(__dirname, "../../.env"),
+  DB_HOST: process.env.DB_HOST,
+  DB_PORT: process.env.DB_PORT,
+});
 
 class Config {
   readonly APP_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;

@@ -1,5 +1,12 @@
 import config from "./../configs/config";
 
+// Add debug logging
+console.log("Knex Configuration:", {
+  host: config.DB_HOST,
+  port: config.DB_PORT,
+  database: config.DB_NAME,
+});
+
 const knexConfig = {
   client: "pg",
   connection: {

@@ -49,8 +49,11 @@ jobs:
               npm ci
               
               echo "🔄 Running migrations..."
-              # Ensure env vars are loaded before running migrate
-              source .env && npm run migrate
+              export NODE_ENV=production
+              source .env
+              echo "Current working directory: $(pwd)"
+              echo "Environment check: DB_HOST=${DB_HOST}"
+              npm run migrate
               
               echo "🏗️ Building application..."
               npm run build
