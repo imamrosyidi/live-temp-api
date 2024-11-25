@@ -164,3 +164,6 @@ The application supports real-time updates via WebSocket. Temperature data is em
   "value": "number"
 }
 ```
+
+## Github Workflow
+when user merged to main, we will automatically deploy this app on my VPS
