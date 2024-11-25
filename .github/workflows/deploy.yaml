@@ -66,7 +66,7 @@ jobs:
                 npm run start
                 echo "✅ Application started successfully"
               fi
-            EOF
+          EOF
 
       - name: Cleanup
         if: always()
