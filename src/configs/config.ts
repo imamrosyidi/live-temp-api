@@ -15,7 +15,7 @@ console.log("Environment Loading:", {
 
 class Config {
   readonly APP_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
-  readonly APP_NAME = process.env.APP_NAME;
+  readonly APP_NAME = process.env.APP_NAME || "temperature_app";
   readonly DB_USER = process.env.DB_USER || "db_user";
   readonly DB_PASSWORD = process.env.DB_PASSWORD || "db_password";
   readonly DB_HOST = process.env.DB_HOST || "db_host";
