@@ -28,6 +28,7 @@ class Database {
         database: config.DB_NAME,
         user: config.DB_USER,
         password: config.DB_PASSWORD,
+        application_name: config.APP_NAME,
         max: 10,
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 2000,
