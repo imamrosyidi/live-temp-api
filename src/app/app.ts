@@ -5,6 +5,8 @@ import authRoutes from "@/app/routes/auth.routes";
 import temperatureRoutes from "@/app/routes/temperature.routes";
 import swaggerSpecs from "@/configs/swagger";
 import cors from "cors";
+import { assignRequestId } from "./middlewares/assignRequestId.middleware";
+import { handleApiError } from "./middlewares/handleApiError.middleware";
 
 const app = express();
 
@@ -15,6 +17,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use(assignRequestId);
 
 app.use("/api", temperatureRoutes);
 app.use("/auth", authRoutes);
@@ -29,5 +32,7 @@ app.get("/me", async (_, res: Response) => {
     res.status(500).json({ error: "Failed to retrieve information" });
   }
 });
+
+app.use(handleApiError);
 
 export default app;
